@@ -21,6 +21,7 @@ def base_fixture():
     password = ''.join(choice(string.ascii_lowercase) for i in range(7))
     user_data = {'username': username, 'password': password}
     fixture.api.create_user(user_data)
+
     login_response = fixture.api.login(username, password)
     session_id = login_response.json()['message'][23:]
     fixture.api.headers.update({'session': session_id})
@@ -32,7 +33,7 @@ def base_fixture():
 
 
 @pytest.fixture()
-def pet_id():
+def pet_id(base_fixture):
 
     name = ''.join(choice(string.ascii_lowercase) for i in range(5))
     category = ''.join(choice(string.ascii_lowercase) for i in range(7))
